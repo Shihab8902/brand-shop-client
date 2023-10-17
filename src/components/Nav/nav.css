@@ -1,0 +1,6 @@
+.active {
+    background-color: transparent !important;
+    color: red !important;
+    font-weight: bold !important;
+    text-decoration: underline !important;
+}
