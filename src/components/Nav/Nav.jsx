@@ -1,7 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import "./nav.css"
-
 import logo from "../../assets/images/logo.png"
 
 const Nav = () => {
@@ -18,7 +17,6 @@ const Nav = () => {
     return <div className="drawer lg:px-10 lg:py-5">
         <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col">
-            {/* Navbar */}
             <div className="w-full navbar ">
                 <div className="flex-none lg:hidden">
                     <label htmlFor="my-drawer-3" aria-label="open sidebar" className="btn btn-square btn-ghost">
