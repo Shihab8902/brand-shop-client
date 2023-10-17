@@ -7,14 +7,14 @@ const Nav = () => {
 
 
     const navLinks = <>
-        <li className='font-semibold text-lg'><NavLink className="hover:bg-transparent hover:underline" to="/">Home</NavLink></li>
-        <li className='font-semibold text-lg '> <NavLink className="hover:bg-transparent hover:underline" to="/addProduct">Add Product</NavLink></li>
-        <li className='font-semibold text-lg'><NavLink className="hover:bg-transparent hover:underline" to="/cart">My Cart</NavLink></li>
+        <li className='font-medium text-lg'><NavLink className="hover:bg-transparent hover:underline" to="/">Home</NavLink></li>
+        <li className='font-medium text-lg '> <NavLink className="hover:bg-transparent hover:underline" to="/addProduct">Add Product</NavLink></li>
+        <li className='font-medium text-lg'><NavLink className="hover:bg-transparent hover:underline" to="/cart">My Cart</NavLink></li>
 
     </>
 
 
-    return <div className="drawer lg:px-10 lg:py-5">
+    return <div className="drawer container mx-auto lg:py-5 z-20 ">
         <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col">
             <div className="w-full navbar ">
@@ -29,7 +29,7 @@ const Nav = () => {
                         {
                             navLinks
                         }
-                        <button className='bg-[#0802A3] ml-4 text-white font-semibold text-lg px-6 py-2 rounded-md'>Login</button>
+                        <button className='bg-[#0802A3] ml-4 text-white font-medium text-lg px-6 py-2 rounded-md'>Login</button>
                     </ul>
 
                 </div>
@@ -41,7 +41,7 @@ const Nav = () => {
                 {
                     navLinks
                 }
-                <button className='bg-[#0802A3] text-white font-semibold text-lg px-6 py-3 rounded-md'>Login</button>
+                <button className='bg-[#0802A3] text-white font-medium text-lg px-6 py-3 rounded-md'>Login</button>
             </ul>
 
         </div>
