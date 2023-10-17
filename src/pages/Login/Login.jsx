@@ -5,6 +5,7 @@ import { AiOutlineEye } from 'react-icons/ai';
 import { AiOutlineEyeInvisible } from 'react-icons/ai';
 import { BsGoogle } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
+import Nav from '../../components/Nav/Nav';
 
 const Login = () => {
 
@@ -13,10 +14,12 @@ const Login = () => {
 
 
 
-    return <>
+    return <div className='p-5'>
 
-        <div className='md:w-1/2 mx-auto my-10 border-2 p-10 container '>
-            <img src={logo} className='w-[200px] mx-auto' alt="" />
+        <Nav />
+
+        <div className='lg:w-1/2 mx-auto my-10 md:border-2 md:p-10 container m-5'>
+            <img src={logo} className='w-[200px] hidden md:block mx-auto' alt="" />
             <h3 className='font-semibold text-3xl  mb-2 mt-5'>Login</h3>
             <p className='text-gray-500 text-sm'>Enter your details to login to your account.</p>
 
@@ -46,7 +49,7 @@ const Login = () => {
             <p className='text-center mt-5 text-sm'>Don't have an account? <Link to="/register" className='text-red-500  font-bold hover:underline'>Register</Link></p>
         </div>
 
-    </>
+    </div>
 }
 
 export default Login
