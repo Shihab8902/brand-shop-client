@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import "./nav.css"
 import logo from "../../assets/images/logo.png"
 
@@ -29,7 +29,7 @@ const Nav = () => {
                         {
                             navLinks
                         }
-                        <button className='bg-[#0802A3] ml-4 text-white font-medium text-lg px-6 py-2 rounded-md'>Login</button>
+                        <Link to="/login"> <button className='bg-[#0802A3] ml-4 text-white font-medium text-lg px-6 py-2 rounded-md'>Login</button></Link>
                     </ul>
 
                 </div>
@@ -41,7 +41,7 @@ const Nav = () => {
                 {
                     navLinks
                 }
-                <button className='bg-[#0802A3] text-white font-medium text-lg px-6 py-3 rounded-md'>Login</button>
+                <Link to="/login"> <button className='bg-[#0802A3] ml-4 text-white font-medium text-lg px-6 py-2 rounded-md'>Login</button></Link>
             </ul>
 
         </div>
