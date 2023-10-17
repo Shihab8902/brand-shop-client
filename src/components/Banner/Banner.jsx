@@ -3,7 +3,7 @@ import bannerBG from '../../assets/images/bannerBG.png'
 
 
 const Banner = () => {
-    return <div className="hero min-h-screen ">
+    return <div className="hero h-screen ">
         <div className="hero-content flex-col justify-between lg:flex-row-reverse">
             <img src={bannerBG} className="lg:max-w-xl" />
             <div>
