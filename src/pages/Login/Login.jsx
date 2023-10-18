@@ -1,15 +1,82 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import logo from '../../assets/images/logo.png'
 
 import { AiOutlineEye } from 'react-icons/ai';
 import { AiOutlineEyeInvisible } from 'react-icons/ai';
 import { BsGoogle } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Nav from '../../components/Nav/Nav';
+import { UserContext } from '../../firebase/AuthProvider';
+import Swal from 'sweetalert2';
 
 const Login = () => {
 
+    const navigate = useNavigate();
+
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+    const { loginUser, registerWithGoogle } = useContext(UserContext);
+
+    const handleUserLogin = e => {
+        e.preventDefault();
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        loginUser(email, password)
+            .then(userCredential => {
+                if (userCredential.user) {
+                    form.reset();
+                    Swal.fire({
+                        title: "Logged In",
+                        text: "You are successfully logged in!",
+                        icon: "success"
+                    })
+                        .then(result => {
+                            if (result.isConfirmed) {
+                                navigate('/');
+                            }
+                        })
+
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    title: "Error",
+                    text: error.message,
+                    icon: "error"
+                })
+            })
+    }
+
+
+
+
+
+    //Register with Google
+    const handleGoogleRegister = () => {
+        registerWithGoogle()
+            .then(result => {
+                if (result.user) {
+                    Swal.fire({
+                        title: "Logged in",
+                        text: "Your account has been logged in successfully!",
+                        icon: "success"
+                    })
+                        .then(result => {
+                            if (result.isConfirmed) {
+                                navigate("/")
+                            }
+                        })
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    title: "Error",
+                    title: error.message,
+                    icon: "error"
+                })
+            })
+    }
 
 
 
@@ -23,7 +90,7 @@ const Login = () => {
             <h3 className='font-semibold text-3xl  mb-2 mt-5'>Login</h3>
             <p className='text-gray-500 text-sm'>Enter your details to login to your account.</p>
 
-            <form className='mt-14'>
+            <form className='mt-14' onSubmit={handleUserLogin}>
                 <div>
                     <label className='font-semibold' htmlFor="email">Email</label>
                     <input className='w-full mt-2  mb-6 py-4 px-5 rounded-md border-2 outline-none' type="email" name="email" id="email" placeholder='Enter your email' required />
@@ -43,7 +110,7 @@ const Login = () => {
             <div className='mt-5'>
                 <p className='text-center text-lg'> or  </p>
                 <div >
-                    <button className='border-2 bg-gray-100 hover:bg-gray-200 mx-auto mt-5 border-black rounded-md flex items-center gap-2 px-5  font-semibold  py-4'><BsGoogle className='text-xl' /> Continue with Google</button>
+                    <button onClick={handleGoogleRegister} className='border-2 bg-gray-100 hover:bg-gray-200 mx-auto mt-5 border-black rounded-md flex items-center gap-2 px-5  font-semibold  py-4'><BsGoogle className='text-xl' /> Continue with Google</button>
                 </div>
             </div>
             <p className='text-center mt-5 text-sm'>Don't have an account? <Link to="/register" className='text-red-500  font-bold hover:underline'>Register</Link></p>

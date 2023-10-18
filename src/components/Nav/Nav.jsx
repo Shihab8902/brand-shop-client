@@ -1,10 +1,16 @@
-import React from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import React, { useContext } from 'react'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import "./nav.css"
 import logo from "../../assets/images/logo.png"
+import { UserContext } from '../../firebase/AuthProvider'
+
+import userPlaceholder from '../../assets/images/user.png'
+import Swal from 'sweetalert2'
 
 const Nav = () => {
+    const navigate = useNavigate();
 
+    const { user, logOutUser } = useContext(UserContext);
 
     const navLinks = <>
         <li className='font-medium text-lg'><NavLink className="hover:bg-transparent hover:underline" to="/">Home</NavLink></li>
@@ -12,6 +18,26 @@ const Nav = () => {
         <li className='font-medium text-lg'><NavLink className="hover:bg-transparent hover:underline" to="/cart">My Cart</NavLink></li>
 
     </>
+
+
+    const handleLogOut = () => {
+        Swal.fire({
+            title: 'Log out?',
+            text: "Are you sure want to log out?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirm'
+        }).then(result => {
+            if (result.isConfirmed) {
+                logOutUser();
+                navigate("/")
+            }
+        })
+
+
+    }
 
 
     return <div className="drawer container mx-auto lg:py-5 z-20 ">
@@ -29,7 +55,21 @@ const Nav = () => {
                         {
                             navLinks
                         }
-                        <Link to="/login"> <button className='bg-[#0802A3] ml-4 text-white font-medium text-lg px-6 py-2 rounded-md'>Login</button></Link>
+                        <div className='flex items-center' title={user?.displayName}>
+                            {
+                                user && <div title={user.displayName} className='flex items-center border-2 rounded-lg px-3 py-1  gap-2 bg-gray-50'>
+                                    <img className='w-[40px] block h-[40px] rounded-full' src={user.photoURL ? user.photoURL : userPlaceholder} alt="" />
+                                    <p className='font-semibold text-sm'>
+                                        {
+                                            user.displayName ? user.displayName.length > 6 ? user.displayName.slice(0, 6) + "..." : user.displayName : "User"
+                                        }
+                                    </p>
+                                </div>
+                            }
+                            {
+                                user ? <button onClick={handleLogOut} className='bg-red-500 ml-4 text-white font-medium text-lg px-6 py-2 rounded-md'>Log out</button> : <Link to="/login"> <button className='bg-[#0802A3] ml-4 text-white font-medium text-lg px-6 py-2 rounded-md'>Login</button></Link>
+                            }
+                        </div>
                     </ul>
 
                 </div>
@@ -41,7 +81,21 @@ const Nav = () => {
                 {
                     navLinks
                 }
-                <Link to="/login"> <button className='bg-[#0802A3] ml-4 text-white font-medium text-lg px-6 py-2 rounded-md'>Login</button></Link>
+                <div className='flex items-center' title={user?.displayName}>
+                    {
+                        user && <div title={user.displayName} className='flex items-center border-2 rounded-lg px-3 py-1 bg-gray-50  gap-2'>
+                            <img className='w-[40px] block h-[40px] rounded-full' src={user.photoURL ? user.photoURL : userPlaceholder} alt="" />
+                            <p className='font-semibold text-sm'>
+                                {
+                                    user.displayName ? user.displayName.length > 6 ? user.displayName.slice(0, 6) + "..." : user.displayName : "User"
+                                }
+                            </p>
+                        </div>
+                    }
+                    {
+                        user ? <button onClick={handleLogOut} className='bg-red-500 ml-4 text-white font-medium text-lg px-6 py-2 rounded-md'>Log out</button> : <Link to="/login"> <button className='bg-[#0802A3] ml-4 text-white font-medium text-lg px-6 py-2 rounded-md'>Login</button></Link>
+                    }
+                </div>
             </ul>
 
         </div>

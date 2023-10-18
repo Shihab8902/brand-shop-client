@@ -15,7 +15,7 @@ const Register = () => {
 
     const navigate = useNavigate();
 
-    const { createUser } = useContext(UserContext);
+    const { createUser, registerWithGoogle } = useContext(UserContext);
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
@@ -90,6 +90,33 @@ const Register = () => {
     }
 
 
+    //Register with Google
+    const handleGoogleRegister = () => {
+        registerWithGoogle()
+            .then(result => {
+                if (result.user) {
+                    Swal.fire({
+                        title: "Registered",
+                        text: "Your account has been registered successfully!",
+                        icon: "success"
+                    })
+                        .then(result => {
+                            if (result.isConfirmed) {
+                                navigate("/")
+                            }
+                        })
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    title: "Error",
+                    title: error.message,
+                    icon: "error"
+                })
+            })
+    }
+
+
 
 
     return <div className='p-5'>
@@ -129,7 +156,7 @@ const Register = () => {
             <div className='mt-5'>
                 <p className='text-center text-lg'> or  </p>
                 <div >
-                    <button className='border-2 bg-gray-100 hover:bg-gray-200 mx-auto mt-5 border-black rounded-md flex items-center gap-2 px-5  font-semibold  py-4'><BsGoogle className='text-xl' /> Continue with Google</button>
+                    <button onClick={handleGoogleRegister} className='border-2 bg-gray-100 hover:bg-gray-200 mx-auto mt-5 border-black rounded-md flex items-center gap-2 px-5  font-semibold  py-4'><BsGoogle className='text-xl' /> Continue with Google</button>
                 </div>
             </div>
             <p className='text-center mt-5 text-sm'>Already have an account? <Link to="/login" className='text-red-500  font-bold hover:underline'>Login</Link></p>
