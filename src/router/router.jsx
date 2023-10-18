@@ -8,6 +8,8 @@ import Register from "../pages/Register/Register";
 import Login from "../pages/Login/Login";
 import PrivateRoute from "../components/PrivateRoute/PrivateRoute";
 import BrandProducts from "../pages/BrandProducts/BrandProducts";
+import ProductsDetails from "../pages/BrandProducts/ProductsDetails";
+import UpdateProduct from "../pages/UpdateProduct/UpdateProduct";
 
 export const router = createBrowserRouter([
     {
@@ -41,6 +43,20 @@ export const router = createBrowserRouter([
                 path: "/brand/:name",
                 element: <BrandProducts />,
                 loader: () => fetch("https://bytesync-server.vercel.app/products")
+            },
+            {
+                path: "/product/:id",
+                element: <PrivateRoute>
+                    <ProductsDetails />
+                </PrivateRoute>,
+                loader: ({ params }) => fetch(`https://bytesync-server.vercel.app/product/${params.id}`)
+            },
+            {
+                path: "/update/:id",
+                element: <PrivateRoute>
+                    <UpdateProduct />
+                </PrivateRoute>,
+                loader: ({ params }) => fetch(`https://bytesync-server.vercel.app/product/${params.id}`)
             }
         ]
     }

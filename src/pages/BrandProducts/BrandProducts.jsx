@@ -5,6 +5,8 @@ import { useLoaderData, useParams } from 'react-router-dom'
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import BrandProduct from './BrandProduct';
+import { Helmet } from 'react-helmet';
+import Footer from '../../components/Footer/Footer';
 
 const BrandProducts = () => {
 
@@ -27,10 +29,13 @@ const BrandProducts = () => {
     }, [])
 
 
-    console.log(selectedProducts)
 
 
     return <>
+
+        <Helmet>
+            <title>{brandName}</title>
+        </Helmet>
 
         <Nav />
 
@@ -57,14 +62,17 @@ const BrandProducts = () => {
 
 
         {
-            selectedProducts.length > 0 ? <div className='grid md:grid-cols-2 lg:grid-cols-3 container mx-auto my-20'>
+            selectedProducts.length > 0 ? <div className='grid md:grid-cols-2 lg:grid-cols-3 container mx-auto p-2 md:p-5 lg:p-0 my-20'>
                 {
                     selectedProducts.map(product => <BrandProduct key={product._id} product={product} />)
                 }
             </div>
                 :
-                <p>No data found</p>
+                <p className='text-center font-semibold text-gray-400 leading-10 my-20 text-2xl'>Currently, no products are available for this brand. <br /> Please check back later for updates.</p>
         }
+
+
+        <Footer />
 
 
     </>

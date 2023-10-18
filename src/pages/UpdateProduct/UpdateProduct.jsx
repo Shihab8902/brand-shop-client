@@ -1,45 +1,50 @@
 import React, { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import Nav from '../../components/Nav/Nav'
-import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
-const AddProduct = () => {
+const UpdateProduct = () => {
     const navigate = useNavigate();
+    const product = useLoaderData();
+    const { name, brand, type, price, photo, description, rating, _id } = product;
+    const [productType, setProductType] = useState(type);
 
 
-    const [productType, setProductType] = useState(null);
-
-    const handleAddProduct = e => {
+    const handleUpdateProduct = e => {
         e.preventDefault();
         const form = e.target;
+
         const name = form.name.value;
         const brand = form.brand.value;
-        const type = productType;
+        const type = form.type.value;
         const price = form.price.value;
         const photo = form.photo.value;
         const rating = form.rating.value;
         const description = form.description.value;
-        const newProduct = { name, brand, type, price, photo, rating, description }
 
-        fetch("https://bytesync-server.vercel.app/products", {
-            method: "POST",
+        const updatedProduct = { name, brand, type, price, photo, rating, description }
+
+        const brandParams = brand.toLowerCase();
+
+        fetch(`https://bytesync-server.vercel.app/update/${_id}`, {
+            method: "PUT",
             headers: {
                 "content-type": "application/json"
             },
-            body: JSON.stringify(newProduct)
+            body: JSON.stringify(updatedProduct)
         })
             .then(res => res.json())
             .then(res => {
-                if (res.acknowledged) {
+                if (res.modifiedCount > 0) {
                     Swal.fire({
-                        title: "Added!",
-                        text: "New product has been added successfully!",
+                        title: "Updated!",
+                        text: "Your product has been updated successfully!",
                         icon: "success"
                     })
                         .then(result => {
                             if (result.isConfirmed) {
-                                navigate("/")
+                                navigate(`/brand/${brandParams}`);
                             }
                         })
                 }
@@ -55,32 +60,28 @@ const AddProduct = () => {
     }
 
 
-
-
-
-
-
     return <>
+
         <Helmet>
-            <title>Add a product</title>
+            <title>Update a product</title>
         </Helmet>
 
         <Nav />
 
 
-        <form onSubmit={handleAddProduct} className='my-10 lg:w-3/4 mx-auto border-2 p-4 md:p-10 bg-gray-50 rounded-lg container '>
-            <h3 className='text-center font-semibold text-3xl  mb-3'>Add a new product</h3> <hr />
+        <form onSubmit={handleUpdateProduct} className='my-10 lg:w-3/4 mx-auto border-2 p-4 md:p-10 bg-gray-50 rounded-lg container '>
+            <h3 className='text-center font-semibold text-3xl  mb-3'>Update an existing product</h3> <hr />
 
             <div className='flex  flex-col md:flex-row gap-6 mt-5'>
                 {/* col-1 */}
                 <div className='flex-1'>
                     <div>
                         <label className='font-semibold text-lg' htmlFor="name">Name</label>
-                        <input className='w-full mt-2 mb-4 border-2 px-5 py-4 outline-none rounded-lg' type="text" name="name" id="name" required placeholder='Enter product name' />
+                        <input className='w-full mt-2 mb-4 border-2 px-5 py-4 outline-none rounded-lg' type="text" name="name" id="name" required placeholder='Enter product name' defaultValue={name} />
                     </div>
                     <div>
                         <label className='font-semibold text-lg' htmlFor="type">Type</label>
-                        <select onChange={(e) => setProductType(e.target.value)} className='w-full mt-2 mb-4 border-2 px-5 py-4  cursor-pointer outline-none rounded-lg' name="type" id="type" required>
+                        <select value={productType} onChange={(e) => setProductType(e.target.value)} className='w-full mt-2 mb-4 border-2 px-5 py-4  cursor-pointer outline-none rounded-lg' name="type" id="type" required>
                             <option className='text-gray-400' value="" >Select a product type</option>
                             <option value="Phone" className='text-black' >Phone</option>
                             <option value="Computer" className='text-black' >Computer</option>
@@ -93,7 +94,7 @@ const AddProduct = () => {
                     </div>
                     <div>
                         <label className='font-semibold text-lg' htmlFor="photo">Photo</label>
-                        <input className='w-full mt-2 mb-4 border-2 px-5 py-4 outline-none rounded-lg' type="text" name="photo" id="photo" required placeholder='Enter product photo URL' />
+                        <input className='w-full mt-2 mb-4 border-2 px-5 py-4 outline-none rounded-lg' type="text" name="photo" id="photo" required placeholder='Enter product photo URL' defaultValue={photo} />
                     </div>
                 </div>
 
@@ -101,15 +102,15 @@ const AddProduct = () => {
                 <div className='flex-1'>
                     <div>
                         <label className='font-semibold text-lg' htmlFor="brand">Brand</label>
-                        <input className='w-full mt-2 mb-4 border-2 px-5 py-4 outline-none rounded-lg' type="text" name="brand" id="brand" required placeholder='Enter product brand' />
+                        <input className='w-full mt-2 mb-4 border-2 px-5 py-4 outline-none rounded-lg' type="text" name="brand" id="brand" required placeholder='Enter product brand' defaultValue={brand} />
                     </div>
                     <div>
                         <label className='font-semibold text-lg' htmlFor="price">Price</label>
-                        <input className='w-full mt-2 mb-4 border-2 px-5 py-4 outline-none rounded-lg' type="text" name="price" id="price" required placeholder='Enter product price' />
+                        <input className='w-full mt-2 mb-4 border-2 px-5 py-4 outline-none rounded-lg' type="text" name="price" id="price" required placeholder='Enter product price' defaultValue={price} />
                     </div>
                     <div>
                         <label className='font-semibold text-lg' htmlFor="rating">Rating</label>
-                        <input className='w-full mt-2 mb-4 border-2 px-5 py-4 outline-none rounded-lg' type="text" name="rating" id="rating" required placeholder='Enter product rating' />
+                        <input className='w-full mt-2 mb-4 border-2 px-5 py-4 outline-none rounded-lg' type="text" name="rating" id="rating" required placeholder='Enter product rating' defaultValue={rating} />
                     </div>
                 </div>
 
@@ -117,13 +118,13 @@ const AddProduct = () => {
 
             <div>
                 <label className='font-semibold text-lg' htmlFor="description">Description</label>
-                <textarea className='w-full mt-2 mb-4 border-2 px-5 py-4 h-[200px] resize-none outline-none rounded-lg' name="description" required placeholder='Enter product description' />
+                <textarea className='w-full mt-2 mb-4 border-2 px-5 py-4 h-[200px] resize-none outline-none rounded-lg' name="description" required placeholder='Enter product description' defaultValue={description} />
             </div>
 
-            <input className='w-full bg-red-500 py-4 text-white font-semibold text-lg rounded-lg cursor-pointer' type="submit" value="Add Product" />
+            <input className='w-full bg-red-500 py-4 text-white font-semibold text-lg rounded-lg cursor-pointer' type="submit" value="Update Product" />
         </form>
 
     </>
 }
 
-export default AddProduct
+export default UpdateProduct
