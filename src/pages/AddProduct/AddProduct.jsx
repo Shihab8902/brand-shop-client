@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import Nav from '../../components/Nav/Nav'
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const AddProduct = () => {
+    const navigate = useNavigate();
 
 
     const [productType, setProductType] = useState(null);
@@ -17,11 +20,38 @@ const AddProduct = () => {
         const photo = form.photo.value;
         const rating = form.rating.value;
         const description = form.description.value;
-
         const newProduct = { name, brand, type, price, photo, rating, description }
 
+        fetch("https://bytesync-server.vercel.app/products", {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(newProduct)
+        })
+            .then(res => res.json())
+            .then(res => {
+                if (res.acknowledged) {
+                    Swal.fire({
+                        title: "Added!",
+                        text: "New product has been added successfully!",
+                        icon: "success"
+                    })
+                        .then(result => {
+                            if (result.isConfirmed) {
+                                navigate("/")
+                            }
+                        })
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    title: "Error",
+                    text: error.message,
+                    icon: "error"
+                })
+            })
 
-        console.log(newProduct)
     }
 
 
@@ -79,7 +109,7 @@ const AddProduct = () => {
                     </div>
                     <div>
                         <label className='font-semibold text-lg' htmlFor="rating">Rating</label>
-                        <input className='w-full mt-2 mb-4 border-2 px-5 py-4 outline-none rounded-lg' type="number" name="rating" id="rating" required max={5} placeholder='Enter product rating' />
+                        <input className='w-full mt-2 mb-4 border-2 px-5 py-4 outline-none rounded-lg' type="number" name="rating" id="rating" required placeholder='Enter product rating' />
                     </div>
                 </div>
 

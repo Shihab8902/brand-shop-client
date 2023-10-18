@@ -39,19 +39,6 @@ const AuthProvider = ({ children }) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     //Observer user
     useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -63,7 +50,7 @@ const AuthProvider = ({ children }) => {
     }, []);
 
 
-    console.log(user)
+
 
     const userInfo = {
         user,

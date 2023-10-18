@@ -7,6 +7,7 @@ import MyCart from "../pages/MyCart/MyCart";
 import Register from "../pages/Register/Register";
 import Login from "../pages/Login/Login";
 import PrivateRoute from "../components/PrivateRoute/PrivateRoute";
+import BrandProducts from "../pages/BrandProducts/BrandProducts";
 
 export const router = createBrowserRouter([
     {
@@ -35,6 +36,11 @@ export const router = createBrowserRouter([
             {
                 path: "/login",
                 element: <Login />
+            },
+            {
+                path: "/brand/:name",
+                element: <BrandProducts />,
+                loader: () => fetch("https://bytesync-server.vercel.app/products")
             }
         ]
     }
