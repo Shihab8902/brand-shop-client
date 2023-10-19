@@ -1,25 +1,38 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useLoaderData, useNavigate } from 'react-router-dom'
 import Nav from '../../components/Nav/Nav';
 import ReactStars from "react-rating-stars-component";
 import Swal from 'sweetalert2';
+import { UserContext } from '../../firebase/AuthProvider';
 
 const ProductsDetails = () => {
     const navigate = useNavigate();
 
     const product = useLoaderData();
-    const { photo, name, brand, type, price, rating, description } = product;
+    const { photo, name, brand, type, price, rating, description, } = product;
     const ratingInt = parseFloat(rating);
+
+    const { user } = useContext(UserContext);
 
 
 
     const handleAddToCart = () => {
+        const cartProduct = {
+            name,
+            brand,
+            photo,
+            type,
+            price,
+            rating,
+            description,
+            user: user.email.toLowerCase()
+        }
         fetch("https://bytesync-server.vercel.app/cart", {
             method: "POST",
             headers: {
                 "content-type": "application/json"
             },
-            body: JSON.stringify(product)
+            body: JSON.stringify(cartProduct)
         })
             .then(res => res.json())
             .then(res => {
@@ -31,19 +44,11 @@ const ProductsDetails = () => {
                     })
                 }
             })
-            .catch(() => {
+            .catch((error) => {
                 Swal.fire({
-                    text: 'You have already added the product. Go your cart to checkout.',
-                    showDenyButton: true,
-                    showCancelButton: true,
-                    confirmButtonText: 'Go to cart',
-                    denyButtonText: `Go home`,
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        navigate("/cart");
-                    } else if (result.isDenied) {
-                        navigate("/")
-                    }
+                    title: "Error",
+                    text: error.message,
+                    icon: "error"
                 })
             })
     };

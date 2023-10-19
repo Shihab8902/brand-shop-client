@@ -1,22 +1,19 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { BsTrash3 } from 'react-icons/bs';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import Swal from 'sweetalert2';
-import { useLoaderData } from 'react-router-dom';
 
-const Cart = ({ cartItem, setCartItems }) => {
+
+
+const Cart = ({ cartItem, setCartItems, cartItems }) => {
     const { photo, name, price, _id } = cartItem;
-
-    const loadedCartItems = useLoaderData();
-
     const [quantity, setQuantity] = useState(1);
 
 
-
-    const handleDeleteCartItem = () => {
+    const handleDeleteCartItem = (id) => {
         Swal.fire({
             title: 'Are you sure?',
-            text: "Are you sure want to delete the item?",
+            text: "Are you sure want to delete the product?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -24,22 +21,28 @@ const Cart = ({ cartItem, setCartItems }) => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`https://bytesync-server.vercel.app/cart/${_id}`, {
-                    method: "DELETE",
+                fetch(`http://localhost:9000/cart/${id}`, {
+                    method: "DELETE"
                 })
                     .then(res => res.json())
                     .then(res => {
                         if (res.deletedCount > 0) {
-                            const remaining = loadedCartItems.filter(loadedCartItem => loadedCartItem._id !== cartItem._id);
-                            setCartItems(remaining);
+                            const remaining = cartItems.filter(cartProduct => cartProduct._id !== id);
+                            setCartItems(remaining)
                             Swal.fire({
                                 title: "Deleted!",
-                                text: "Your cart items has been deleted successfully!",
+                                text: "Your item has been deleted successfully!",
                                 icon: "success"
                             })
                         }
                     })
-                    .catch(error => console.log(error))
+                    .catch(error => {
+                        Swal.fire({
+                            title: "Error",
+                            text: error.message,
+                            icon: "error"
+                        })
+                    })
             }
         })
     }
@@ -51,7 +54,7 @@ const Cart = ({ cartItem, setCartItems }) => {
 
 
 
-    return <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4 items-center border p-5 rounded-lg'>
+    return <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4 items-center mb-5 border p-5 rounded-lg'>
         <div>
             <img className='w-full block h-full' src={photo} alt="Image unavailable" />
         </div>
@@ -70,7 +73,7 @@ const Cart = ({ cartItem, setCartItems }) => {
         </div>
 
         <div className=' flex flex-col justify-center items-center'>
-            <button onClick={handleDeleteCartItem} className='text-3xl text-red-500'><BsTrash3 /></button>
+            <button onClick={() => handleDeleteCartItem(_id)} className='text-3xl text-red-500'><BsTrash3 /></button>
             <button className='flex items-center gap-2 bg-green-500 px-4 py-2 rounded-md text-lg mt-5 md:mt-10 font-semibold text-white'>Checkout <AiOutlineArrowRight /> </button>
         </div>
     </div>
