@@ -9,7 +9,7 @@ const PrivateRoute = ({ children }) => {
 
     if (loading) {
         return <div className='flex justify-center my-20'>
-            <h3 className='text-2xl font-bold'>Gathering resources.....</h3>
+            <h3 className='text-2xl font-bold text-gray-500'>Gathering resources.....</h3>
         </div>
     }
 

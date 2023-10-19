@@ -21,9 +21,9 @@ const UpdateProduct = () => {
         const price = form.price.value;
         const photo = form.photo.value;
         const rating = form.rating.value;
-        const description = form.description.value;
 
-        const updatedProduct = { name, brand, type, price, photo, rating, description }
+
+        const updatedProduct = { name, brand, type, price, photo, rating }
 
         const brandParams = brand.toLowerCase();
 
@@ -116,12 +116,8 @@ const UpdateProduct = () => {
 
             </div>
 
-            <div>
-                <label className='font-semibold text-lg' htmlFor="description">Description</label>
-                <textarea className='w-full mt-2 mb-4 border-2 px-5 py-4 h-[200px] resize-none outline-none rounded-lg' name="description" required placeholder='Enter product description' defaultValue={description} />
-            </div>
 
-            <input className='w-full bg-red-500 py-4 text-white font-semibold text-lg rounded-lg cursor-pointer' type="submit" value="Update Product" />
+            <input className='w-full bg-red-500 py-4 mt-4 text-white font-semibold text-lg rounded-lg cursor-pointer' type="submit" value="Update Product" />
         </form>
 
     </>

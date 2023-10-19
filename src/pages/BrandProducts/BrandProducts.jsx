@@ -62,7 +62,7 @@ const BrandProducts = () => {
 
 
         {
-            selectedProducts.length > 0 ? <div className='grid md:grid-cols-2 lg:grid-cols-3 container mx-auto p-2 md:p-5 lg:p-0 my-20'>
+            selectedProducts.length > 0 ? <div className='grid md:grid-cols-2 lg:grid-cols-3 container gap-6 mx-auto p-2 md:p-5 lg:p-0 my-20'>
                 {
                     selectedProducts.map(product => <BrandProduct key={product._id} product={product} />)
                 }
