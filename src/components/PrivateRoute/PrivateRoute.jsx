@@ -1,8 +1,9 @@
 import React, { useContext } from 'react'
 import { UserContext } from '../../firebase/AuthProvider'
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 
 const PrivateRoute = ({ children }) => {
+    const location = useLocation();
 
     const { user, loading } = useContext(UserContext);
 
@@ -16,7 +17,7 @@ const PrivateRoute = ({ children }) => {
         return children
     }
 
-    return <Navigate to="/login"></Navigate>
+    return <Navigate state={location.pathname} to="/login"></Navigate>
 
 
 

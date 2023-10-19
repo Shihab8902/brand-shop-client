@@ -6,6 +6,7 @@ import { UserContext } from '../../firebase/AuthProvider'
 
 import userPlaceholder from '../../assets/images/user.png'
 import Swal from 'sweetalert2'
+import DarkMode from '../DarkMode.jsx/DarkMode'
 
 const Nav = () => {
     const navigate = useNavigate();
@@ -70,6 +71,9 @@ const Nav = () => {
                                 user ? <button onClick={handleLogOut} className='bg-red-500 ml-4 text-white font-medium text-lg px-6 py-2 rounded-md'>Log out</button> : <Link to="/login"> <button className='bg-[#0802A3] ml-4 text-white font-medium text-lg px-6 py-2 rounded-md'>Login</button></Link>
                             }
                         </div>
+                        <div className='ml-2'>
+                            <DarkMode />
+                        </div>
                     </ul>
 
                 </div>
@@ -81,6 +85,9 @@ const Nav = () => {
                 {
                     navLinks
                 }
+                <div className='ml-2'>
+                    <DarkMode />
+                </div>
                 <div className='flex items-center' title={user?.displayName}>
                     {
                         user && <div title={user.displayName} className='flex items-center border-2 rounded-lg px-3 py-1 bg-gray-50  gap-2'>
@@ -96,6 +103,8 @@ const Nav = () => {
                         user ? <button onClick={handleLogOut} className='bg-red-500 ml-4 text-white font-medium text-lg px-6 py-2 rounded-md'>Log out</button> : <Link to="/login"> <button className='bg-[#0802A3] ml-4 text-white font-medium text-lg px-6 py-2 rounded-md'>Login</button></Link>
                     }
                 </div>
+
+
             </ul>
 
         </div>

@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AiOutlineEye } from 'react-icons/ai';
 import { AiOutlineEyeInvisible } from 'react-icons/ai';
 import { BsGoogle } from 'react-icons/bs';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../firebase/AuthProvider';
 import { updateProfile } from 'firebase/auth';
 import Swal from 'sweetalert2';
@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 const Register = () => {
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     const { createUser, registerWithGoogle } = useContext(UserContext);
 
@@ -74,7 +75,7 @@ const Register = () => {
                 })
                     .then(result => {
                         if (result.isConfirmed) {
-                            navigate("/")
+                            location.state ? navigate(location.state) : navigate("/")
                         }
                     })
 
@@ -102,7 +103,7 @@ const Register = () => {
                     })
                         .then(result => {
                             if (result.isConfirmed) {
-                                navigate("/")
+                                location.state ? navigate(location.state) : navigate("/")
                             }
                         })
                 }

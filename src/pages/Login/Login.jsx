@@ -4,7 +4,7 @@ import logo from '../../assets/images/logo.png'
 import { AiOutlineEye } from 'react-icons/ai';
 import { AiOutlineEyeInvisible } from 'react-icons/ai';
 import { BsGoogle } from 'react-icons/bs';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Nav from '../../components/Nav/Nav';
 import { UserContext } from '../../firebase/AuthProvider';
 import Swal from 'sweetalert2';
@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 const Login = () => {
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -33,7 +34,7 @@ const Login = () => {
                     })
                         .then(result => {
                             if (result.isConfirmed) {
-                                navigate('/');
+                                location.state ? navigate(location.state) : navigate("/")
                             }
                         })
 
@@ -64,7 +65,7 @@ const Login = () => {
                     })
                         .then(result => {
                             if (result.isConfirmed) {
-                                navigate("/")
+                                location.state ? navigate(location.state) : navigate("/")
                             }
                         })
                 }
@@ -113,7 +114,7 @@ const Login = () => {
                     <button onClick={handleGoogleRegister} className='border-2 bg-gray-100 hover:bg-gray-200 mx-auto mt-5 border-black rounded-md flex items-center gap-2 px-5  font-semibold  py-4'><BsGoogle className='text-xl' /> Continue with Google</button>
                 </div>
             </div>
-            <p className='text-center mt-5 text-sm'>Don't have an account? <Link to="/register" className='text-red-500  font-bold hover:underline'>Register</Link></p>
+            <p className='text-center mt-5 text-sm'>Don't have an account? <Link state={location.state} to="/register" className='text-red-500  font-bold hover:underline'>Register</Link></p>
         </div>
 
     </div>
