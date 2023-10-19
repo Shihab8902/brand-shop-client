@@ -29,7 +29,10 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/cart",
-                element: <MyCart />
+                element: <PrivateRoute>
+                    <MyCart />
+                </PrivateRoute>,
+                loader: () => fetch("https://bytesync-server.vercel.app/cart")
             },
             {
                 path: "/register",
