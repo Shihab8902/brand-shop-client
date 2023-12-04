@@ -1,5 +1,6 @@
 # ByteSync
 Live site: https://bytesyncbyshihab.netlify.app/
+Server Side: https://github.com/Shihab8902/brand-shop-server
 ---
 ByteSync is a online retail store where client can buy electronic products from a wide range of renowned brand.
 
